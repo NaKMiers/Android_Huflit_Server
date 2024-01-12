@@ -4,13 +4,24 @@ const Schema = mongoose.Schema
 const PromptSchema = new Schema(
   {
     userId: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'user',
       require: [true, 'Please provide an user id'],
+    },
+    chatId: {
+      type: Schema.Types.ObjectId,
+      ref: 'chat',
+      require: [true, 'Please provide a chat id'],
     },
     type: {
       type: String,
       enum: ['completion', 'image'],
       default: 'completion',
+    },
+    from: {
+      type: String,
+      enum: ['user', 'ai'],
+      default: 'user',
     },
     text: {
       type: String,

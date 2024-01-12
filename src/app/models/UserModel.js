@@ -17,6 +17,11 @@ const UserSchema = new Schema(
     password: {
       type: String,
     },
+    authType: {
+      type: String,
+      enum: ['local', 'google', 'facebook'],
+      default: 'local',
+    },
     avatar: {
       type: String,
       default: '/images/default-avatar.jpg',
@@ -25,6 +30,21 @@ const UserSchema = new Schema(
       type: String,
       enum: ['user', 'admin'],
       default: 'user',
+    },
+    firstname: {
+      type: String,
+    },
+    lastname: {
+      type: String,
+    },
+    birthday: {
+      type: Date,
+    },
+    job: {
+      type: String,
+    },
+    address: {
+      type: String,
     },
     theme: {
       type: Number,

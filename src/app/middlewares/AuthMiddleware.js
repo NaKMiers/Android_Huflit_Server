@@ -1,19 +1,31 @@
-class AuthMiddleware {
-  async requireAuth(req, res, next) {
-    if (!req.session.user) {
-      return res.redirect('/login')
-    }
+import jwt from 'jsonwebtoken'
+
+export async function requireAuth(req, res, next) {
+  const authHeader = req.headers.authorization
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (!token) return res.sendStatus(401).json({ message: 'Access token not found' })
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403).json({ message: 'Invalid token' })
+    req.user = user
 
     next()
-  }
-
-  async requireAdmin(req, res, next) {
-    if (req.session.user.role === 'admin') {
-      return res.redirect('/')
-    }
-
-    next()
-  }
+  })
 }
 
-export default new AuthMiddleware()
+export async function requireAdmin(req, res, next) {
+  const authHeader = req.headers.authorization
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (!token) return res.sendStatus(401).json({ message: 'Access token not found' })
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403).json({ message: 'Invalid token' })
+
+    if (user.role !== 'admin') return res.sendStatus(403).json({ message: 'Require admin' })
+    req.user = user
+
+    next()
+  })
+}

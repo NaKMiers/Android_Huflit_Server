@@ -1,7 +1,12 @@
 import express from 'express'
 const router = express.Router()
+import ChatController from '../app/controllers/ChatController.js'
 
-// router.post('/', ChatController.createCompletion)
+router.get('/', ChatController.getPrompts)
+
+router.post('/create-prompt', ChatController.createPrompt)
+
+router.post('/create-completion', ChatController.createCompletion)
 
 // router.get('/:id', ChatController.getPrompts)
 // router.post('/:id', ChatController.createFullCompletion)
