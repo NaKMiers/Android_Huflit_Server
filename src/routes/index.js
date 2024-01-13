@@ -2,6 +2,8 @@ import authRouter from './auth.js'
 import chatRouter from './chat.js'
 import imageRouter from './image.js'
 import userRouter from './user.js'
+import boxRouter from './box.js'
+
 import { requireAuth } from '../app/middlewares/AuthMiddleware.js'
 
 function routes(app) {
@@ -12,6 +14,8 @@ function routes(app) {
   app.use('/chat', requireAuth, chatRouter)
 
   app.use('/image', requireAuth, imageRouter)
+
+  app.use('/box', requireAuth, boxRouter)
 
   app.use('/', async (req, res) => {
     // const { id: decodeId, admin, prompt, model, maxTokens, temperature } = req.body
@@ -31,7 +35,8 @@ function routes(app) {
     //   process.stdout.write(chunk.choices[0]?.delta?.content || '')
     // }
 
-    res.send('<h1 style="color: tomato; font-size: 32px">THIS IS HOME PAGE</h1>')
+    // res.send('<h1 style="color: tomato; font-size: 32px">THIS IS HOME PAGE</h1>')
+    res.status(200).json({ message: 'This is home page' })
   })
 }
 

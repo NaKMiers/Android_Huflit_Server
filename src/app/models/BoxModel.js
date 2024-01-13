@@ -10,8 +10,8 @@ const ChatSchema = new Schema(
     },
     type: {
       type: String,
-      enum: ['completion', 'image'],
-      default: 'completion',
+      enum: ['chat', 'image'],
+      default: 'chat',
     },
     title: {
       type: String,
@@ -20,4 +20,4 @@ const ChatSchema = new Schema(
   { timestamps: true }
 )
 
-export default mongoose.models.chat || mongoose.model('chat', ChatSchema)
+export default mongoose.models.box || mongoose.model('box', ChatSchema)

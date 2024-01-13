@@ -10,13 +10,13 @@ const PromptSchema = new Schema(
     },
     chatId: {
       type: Schema.Types.ObjectId,
-      ref: 'chat',
+      ref: 'box',
       require: [true, 'Please provide a chat id'],
     },
     type: {
       type: String,
-      enum: ['completion', 'image'],
-      default: 'completion',
+      enum: ['chat', 'image'],
+      default: 'chat',
     },
     from: {
       type: String,

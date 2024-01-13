@@ -1,7 +1,12 @@
 import express from 'express'
 const router = express.Router()
+import ImageController from '../app/controllers/ImageController.js'
 
-// router.post('/', ImageController.generateImage)
+router.get('/get-prompts', ImageController.getPrompts)
+
+router.post('/create-prompt', ImageController.createPrompt)
+
+router.post('/create-images', ImageController.createImages)
 
 // router.get('/:id', ImageController.getImages)
 // router.post('/:id', ImageController.generateFullImage)

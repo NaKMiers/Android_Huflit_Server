@@ -1,15 +1,17 @@
 import openai from '../../config/openai.js'
-import ChatModel from '../models/ChatModel.js'
+import BoxModel from '../models/BoxModel.js'
 import PromptModel from '../models/PromptModel.js'
 
 class ChatController {
   // // [GET]: /chat
-  getPrompts = async function (req, res) {
+  async getPrompts(req, res) {
+    console.log('getPrompts')
+
     const userId = req.user._id
 
     try {
       // get prompts
-      const prompts = await PromptModel.find({ userId, type: 'completion' })
+      const prompts = await PromptModel.find({ userId, type: 'chat' })
 
       // response prompts
       res.status(200).json({ prompts })
@@ -19,7 +21,7 @@ class ChatController {
   }
 
   // [POST]: /completions/:id/prompt
-  createPrompt = async function (req, res) {
+  async createPrompt(req, res) {
     console.log('createPrompt')
 
     // get data to create prompt
@@ -31,9 +33,9 @@ class ChatController {
 
       // create chat if not exist
       if (!newChatId) {
-        const newChat = new ChatModel({
+        const newChat = new BoxModel({
           userId,
-          type: 'completion',
+          type: 'chat',
           title: 'Untitled',
         })
         await newChat.save()
@@ -45,7 +47,7 @@ class ChatController {
       const newPrompt = new PromptModel({
         userId,
         chatId: newChatId,
-        type: 'completion',
+        type: 'chat',
         from: 'user',
         text: prompt,
       })
@@ -61,7 +63,7 @@ class ChatController {
   }
 
   // [POST]: /chat/create-completion
-  createCompletion = async function (req, res) {
+  async createCompletion(req, res) {
     console.log('createCompletion')
 
     // get data to create completion
@@ -75,9 +77,9 @@ class ChatController {
 
       // create chat if not exist
       if (!newChatId) {
-        const newChat = new ChatModel({
+        const newChat = new BoxModel({
           userId,
-          type: 'completion',
+          type: 'chat',
           title: 'Untitled',
         })
         await newChat.save()
@@ -96,13 +98,12 @@ class ChatController {
       const newCompletion = new PromptModel({
         userId,
         chatId: newChatId,
-        type: 'completion',
+        type: 'chat',
         from: 'ai',
         text: completion.choices[0].message.content,
       })
 
-      // save prompt and completion
-      // const newSavedPrompt = await newPrompt.save()
+      // save completion
       const newSavedcompletion = await newCompletion.save()
 
       // return completion
