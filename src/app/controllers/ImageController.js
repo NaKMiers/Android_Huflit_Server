@@ -89,7 +89,7 @@ class ImageController {
       const images = await openai.images.generate({
         model: 'dall-e-2',
         prompt,
-        n: amount > 10 ? 10 : amount,
+        n: amount > 10 ? 10 : amount || 1,
         size: ['256x256', '512x512', '1024x1024'].includes(size) ? size : '256x256',
       })
 
