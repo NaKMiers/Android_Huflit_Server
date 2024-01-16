@@ -85,7 +85,7 @@ class AuthController {
       }
       const token = jwt.sign(tokenData, process.env.JWT_SECRET)
 
-      const { password: pw, ...otherInfos } = newUser
+      const { password: pw, ...otherInfos } = newUser._doc
 
       // response user data
       res.status(200).json({ user: otherInfos, token, message: 'Register success' })
