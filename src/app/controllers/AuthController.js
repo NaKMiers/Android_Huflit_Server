@@ -4,6 +4,26 @@ import jwt from 'jsonwebtoken'
 import { sendMail } from '../../utils/sendMail.js'
 
 class AuthController {
+  // [POST]: /auth/check-user
+  async checkUser(req, res) {
+    console.log('checkUser')
+
+    // get data
+    const { emailOrUsername } = req.body
+
+    try {
+      // get user from database for checking
+      const user = await UserModel.findOne({
+        $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
+      }).lean()
+
+      // check if user exists or not
+      return res.status(200).json({ message: 'User exists', user })
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+  }
+
   // [POST]: /auth/login
   async login(req, res) {
     console.log('login')
