@@ -3,7 +3,7 @@ import BoxModel from '../models/BoxModel.js'
 import PromptModel from '../models/PromptModel.js'
 
 class ChatController {
-  // // [GET]: /chat
+  // [GET]: /chat/get-prompts
   async getPrompts(req, res) {
     console.log('getPrompts')
 
@@ -12,6 +12,24 @@ class ChatController {
     try {
       // get prompts
       const prompts = await PromptModel.find({ userId, type: 'chat' })
+
+      // response prompts
+      res.status(200).json({ prompts })
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+  }
+
+  // [GET]: /chat/get-prompts/:chatId
+  async getPromptsByChatId(req, res) {
+    console.log('getPromptsByChatId')
+
+    const userId = req.user._id
+    const chatId = req.params.chatId
+
+    try {
+      // get prompts
+      const prompts = await PromptModel.find({ userId, chatId, type: 'chat' })
 
       // response prompts
       res.status(200).json({ prompts })
@@ -91,8 +109,8 @@ class ChatController {
       const completion = await openai.chat.completions.create({
         messages: [{ role: 'system', content: prompt }],
         model: model || 'gpt-4',
-        max_tokens: maxTokens || 100,
-        temperature: temperature || 0.6,
+        max_tokens: +maxTokens || 100,
+        temperature: +temperature || 0.6,
       })
 
       const newCompletion = new PromptModel({
