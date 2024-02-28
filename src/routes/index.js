@@ -3,10 +3,24 @@ import chatRouter from './chat.js'
 import imageRouter from './image.js'
 import userRouter from './user.js'
 import boxRouter from './box.js'
+import adminRouter from './admin.js'
 
-import { requireAuth } from '../app/middlewares/AuthMiddleware.js'
+import { requireAdmin, requireAuth } from '../app/middlewares/AuthMiddleware.js'
+import UserModel from '../app/models/UserModel.js'
 
 function routes(app) {
+  app.use('/temp', async (req, res) => {
+    try {
+      const users = await UserModel.find({ role: 'user' }).lean()
+      const userIds = users.map(user => user._id)
+
+      console.log('userIds', userIds)
+      res.status(200).json({ userIds })
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+  })
+
   app.use('/auth', authRouter)
 
   app.use('/user', requireAuth, userRouter)
@@ -16,6 +30,8 @@ function routes(app) {
   app.use('/image', requireAuth, imageRouter)
 
   app.use('/box', requireAuth, boxRouter)
+
+  app.use('/admin', requireAdmin, adminRouter)
 
   app.use('/', async (req, res) => {
     // const { id: decodeId, admin, prompt, model, maxTokens, temperature } = req.body

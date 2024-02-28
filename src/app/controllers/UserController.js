@@ -2,6 +2,16 @@ import UserModel from '../models/UserModel.js'
 import bcrypt from 'bcrypt'
 
 class UserController {
+  // [GET]: /admin/user/all
+  async getAllUsers(req, res) {
+    try {
+      const users = await UserModel.find().select('-password').lean()
+      res.status(200).json({ users })
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+  }
+
   // [GET]: /user/:id
   async getUser(req, res) {
     console.log('getUser')
@@ -173,11 +183,7 @@ class UserController {
 
     try {
       // update user
-      const user = await UserModel.findByIdAndUpdate(
-        userId,
-        { $set: { amount, size } },
-        { new: true }
-      )
+      const user = await UserModel.findByIdAndUpdate(userId, { $set: { amount, size } }, { new: true })
 
       if (!user) {
         return res.status(404).json({ message: 'User not found' })
@@ -190,40 +196,41 @@ class UserController {
     }
   }
 
-  // deleteUser = async function (req, res) {
-  //   console.log('deleteUser')
+  // [DELETE]: /admin/user/:id/delete
+  deleteUser = async function (req, res) {
+    console.log('deleteUser')
 
-  //   // get user id to delete
-  //   const { id } = req.params
+    // get user id to delete
+    const { id } = req.params
 
-  //   try {
-  //     // delete user
-  //     await UserModel.findByIdAndDelete(id)
+    try {
+      // delete user
+      const deletedUser = await UserModel.findByIdAndDelete(id, { new: true })
 
-  //     // stay in current page
-  //     res.redirect('back')
-  //   } catch (err) {
-  //     res.status(500).json({ message: err.message })
-  //   }
-  // }
+      // stay in current page
+      res.status(200).json({ user: deletedUser, message: 'Deleted user successfully!!!' })
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+  }
 
-  // // [DELETE]: /admin/userdelete-many
-  // deleteManyUsers = async function (req, res) {
-  //   console.log('deleteManyUsers')
+  // [DELETE]: /admin/user/delete-many
+  deleteManyUsers = async function (req, res) {
+    console.log('deleteManyUsers')
 
-  //   // get user ids to delete
-  //   const { data: userIds } = req.body
+    // get user ids to delete
+    const { data: userIds } = req.body
 
-  //   try {
-  //     // delete users in databases
-  //     await UserModel.deleteMany({ _id: { $in: userIds } })
+    try {
+      // delete users in databases
+      await UserModel.deleteMany({ _id: { $in: userIds } })
 
-  //     // stay in current page
-  //     res.status(200).json({})
-  //   } catch (err) {
-  //     res.status(500).json({ message: err.message })
-  //   }
-  // }
+      // stay in current page
+      res.status(200).json({ message: 'Deleted users successfully!!!' })
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+  }
 }
 
 export default new UserController()
