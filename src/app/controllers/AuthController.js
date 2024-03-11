@@ -195,7 +195,7 @@ class AuthController {
         })
       }
 
-      sendMail(email, 'Reset Password', `Code ${code}`)
+      sendMail(email, 'Reset Password', `Code: ${code}`)
 
       res.status(200).json({ message: 'Reset password link has been sent to your email' })
     } catch (err) {
