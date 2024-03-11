@@ -179,7 +179,7 @@ class AuthController {
     console.log('forgotPassword')
 
     // get email to send link to reset password
-    const { email } = req.body
+    const { email, code } = req.body
 
     try {
       const user = await UserModel.findOne({ email }).lean()
@@ -195,9 +195,7 @@ class AuthController {
         })
       }
 
-      const mailHashed = await bcrypt.hash(email, +process.env.BCRYPT_SALT_ROUND)
-      const url = `${process.env.APP_URL}/auth/reset-password?email=${email}&token=${mailHashed}`
-      sendMail(email, 'Reset Password', `<a href="${url}"> Reset Password </a>`)
+      sendMail(email, 'Reset Password', `Code ${code}`)
 
       res.status(200).json({ message: 'Reset password link has been sent to your email' })
     } catch (err) {

@@ -113,6 +113,21 @@ class ImageController {
       res.status(500).json({ message: err.message })
     }
   }
+
+  // [GET]: /admin/image/all
+  async getAllImages(req, res) {
+    console.log('getAllImages')
+
+    try {
+      // get images and merge to a list of image urls
+      const prompts = await PromptModel.find({ type: 'image', from: 'ai' }).select('images').lean()
+
+      const images = prompts.reduce((acc, prompt) => [...acc, ...prompt.images], [])
+      res.status(200).json({ images })
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+  }
 }
 
 export default new ImageController()
