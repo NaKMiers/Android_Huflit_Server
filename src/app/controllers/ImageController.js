@@ -86,12 +86,26 @@ class ImageController {
       }
 
       // create completion
-      const images = await openai.images.generate({
-        model: 'dall-e-2',
-        prompt,
-        n: +amount > 10 ? 10 : +amount || 1,
-        size: ['256x256', '512x512', '1024x1024'].includes(size) ? size : '256x256',
-      })
+      // const images = await openai.images.generate({
+      //   model: 'dall-e-2',
+      //   prompt,
+      //   n: +amount > 10 ? 10 : +amount || 1,
+      //   size: ['256x256', '512x512', '1024x1024'].includes(size) ? size : '256x256',
+      // })
+
+      const images = {
+        data: [
+          {
+            url: 'https://image.lexica.art/full_webp/01df5683-3642-4fe8-8708-49a446133729',
+          },
+          {
+            url: 'https://image.lexica.art/full_webp/49d02e62-ca5d-458e-8d6f-67bdfff6048b',
+          },
+          {
+            url: 'https://image.lexica.art/full_webp/686c5e3c-4761-4af5-8fb6-c6a27e6fe542',
+          },
+        ],
+      }
 
       const newImagePrompt = new PromptModel({
         userId,
