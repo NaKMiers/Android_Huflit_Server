@@ -206,17 +206,9 @@ class AuthController {
   // [PATCH]: /auth/reset-password
   resetPassword = async function (req, res) {
     console.log('resetPassword')
-    const { email, token } = req.query
-    const { newPassword } = req.body
+    const { newPassword, email } = req.body
 
     try {
-      // check if token is valid
-      const isValidToResetPassword = await bcrypt.compare(email, token)
-
-      if (!isValidToResetPassword) {
-        return res.status(404).json({ message: 'Token is invalid' })
-      }
-
       const hashedPassword = await bcrypt.hash(newPassword, +process.env.BCRYPT_SALT_ROUND)
 
       await UserModel.findOneAndUpdate({ email }, { $set: { password: hashedPassword } })
