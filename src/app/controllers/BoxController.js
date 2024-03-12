@@ -9,6 +9,9 @@ class BoxController {
     const userId = req.user._id
 
     try {
+      console.log('type', type)
+      console.log('userId', userId)
+
       // get boxes from database
       const boxes = await BoxModel.find({ userId, type })
 
@@ -59,9 +62,7 @@ class BoxController {
 
       // check box belong to user
       if (box.userId.toString() !== userId) {
-        return res
-          .status(400)
-          .json({ message: 'You do not have permission to perform this action.' })
+        return res.status(400).json({ message: 'You do not have permission to perform this action.' })
       }
 
       // update box
@@ -91,9 +92,7 @@ class BoxController {
 
       // check box belong to user
       if (box.userId.toString() !== userId) {
-        return res
-          .status(400)
-          .json({ message: 'You do not have permission to perform this action.' })
+        return res.status(400).json({ message: 'You do not have permission to perform this action.' })
       }
 
       // delete box

@@ -95,15 +95,9 @@ class ImageController {
 
       const images = {
         data: [
-          {
+          ...Array.from({ length: amount || 1 }).map(item => ({
             url: 'https://image.lexica.art/full_webp/01df5683-3642-4fe8-8708-49a446133729',
-          },
-          {
-            url: 'https://image.lexica.art/full_webp/49d02e62-ca5d-458e-8d6f-67bdfff6048b',
-          },
-          {
-            url: 'https://image.lexica.art/full_webp/686c5e3c-4761-4af5-8fb6-c6a27e6fe542',
-          },
+          })),
         ],
       }
 
