@@ -93,7 +93,6 @@ class ImageController {
         size: ['256x256', '512x512', '1024x1024'].includes(size) ? size : '256x256',
       })
 
-      // nothing changed
       // const images = {
       //   data: [
       //     ...Array.from({ length: amount || 1 }).map(item => ({

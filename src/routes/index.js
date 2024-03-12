@@ -52,7 +52,7 @@ function routes(app) {
     // }
 
     // res.send('<h1 style="color: tomato; font-size: 32px">THIS IS HOME PAGE</h1>')
-    res.status(200).json({ message: 'This is home page' })
+    res.status(200).json({ message: 'This is home page ' + new Date().toISOString() })
   })
 }
 
