@@ -211,7 +211,15 @@ class AuthController {
     try {
       const hashedPassword = await bcrypt.hash(newPassword, +process.env.BCRYPT_SALT_ROUND)
 
-      await UserModel.findOneAndUpdate({ email }, { $set: { password: hashedPassword } })
+      const user = await UserModel.findOneAndUpdate(
+        { email },
+        { $set: { password: hashedPassword } },
+        { new: true }
+      )
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' })
+      }
 
       // return message
       res.status(200).json({ message: 'Reset password successfully!!!' })
