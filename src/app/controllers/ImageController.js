@@ -86,21 +86,21 @@ class ImageController {
         newChatId = newChat._id
       }
 
-      // create completion
-      // const images = await openai.images.generate({
-      //   model: 'dall-e-2',
-      //   prompt,
-      //   n: +amount > 4 ? 4 : +amount || 1,
-      //   size: ['256x256', '512x512', '1024x1024'].includes(size) ? size : '256x256',
-      // })
+      // create images
+      const images = await openai.images.generate({
+        model: 'dall-e-2',
+        prompt,
+        n: +amount > 4 ? 4 : +amount || 1,
+        size: ['256x256', '512x512', '1024x1024'].includes(size) ? size : '256x256',
+      })
 
-      const images = {
-        data: [
-          ...Array.from({ length: amount || 1 }).map(item => ({
-            url: 'https://image.lexica.art/full_webp/b2593940-e0d8-40db-aa7e-a903c6594479',
-          })),
-        ],
-      }
+      // const images = {
+      //   data: [
+      //     ...Array.from({ length: amount || 1 }).map(item => ({
+      //       url: 'https://image.lexica.art/full_webp/b2593940-e0d8-40db-aa7e-a903c6594479',
+      //     })),
+      //   ],
+      // }
 
       const newImagePrompt = new PromptModel({
         userId,
