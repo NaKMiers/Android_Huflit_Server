@@ -102,10 +102,13 @@ class UserController {
           },
         },
         { new: true }
-      )
+      ).lean()
+
+      // exclude password field
+      const { password: _, ...otherDetails } = user
 
       // return user json
-      res.status(200).json(user)
+      res.status(200).json({ user: otherDetails })
     } catch (err) {
       res.status(500).json({ message: err.message })
     }
