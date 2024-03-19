@@ -7,6 +7,13 @@ import path from 'path'
 import routes from './routes/index.js'
 import connectDatabase from './config/database.js'
 
+// database
+connectDatabase()
+
+import './app/models/BoxModel.js'
+import './app/models/PromptModel.js'
+import './app/models/UserModel.js'
+
 // app
 const app = express()
 
@@ -20,9 +27,6 @@ app.use(cors())
 
 // routes
 routes(app)
-
-// database
-connectDatabase()
 
 // app listener
 app.listen(process.env.PORT, () => console.log('Server running on port: ' + process.env.PORT))
