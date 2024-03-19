@@ -1,13 +1,14 @@
-import { connect } from 'mongoose'
+import mongoose from 'mongoose'
 
-async function connectDatabase() {
+// connect database
+async function ConnectDatabase(connectionString) {
   try {
-    await connect(process.env.MONGODB)
+    await mongoose.connect(connectionString)
 
-    console.log('Connect MongoDB successfully!!!')
+    console.log('Database connect successfully')
   } catch (err) {
-    console.log('Connect MongoDB failure!!!')
+    console.log('Database connect failure')
   }
 }
 
-export default connectDatabase
+export { ConnectDatabase }

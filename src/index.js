@@ -5,10 +5,10 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import path from 'path'
 import routes from './routes/index.js'
-import connectDatabase from './config/database.js'
+import { ConnectDatabase } from './config/database.js'
 
 // database
-connectDatabase()
+await ConnectDatabase(process.env.MONGODB)
 
 import './app/models/BoxModel.js'
 import './app/models/PromptModel.js'
