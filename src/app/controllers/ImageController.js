@@ -3,15 +3,16 @@ import PromptModel from '../models/PromptModel.js'
 import openai from '../../config/openai.js'
 
 class ImageController {
-  // [GET]: /images/:id
+  // [GET]: /images/:chatId
   async getPrompts(req, res) {
     console.log('getPrompts')
 
     const userId = req.user._id
+    const { chatId } = req.params
 
     try {
       // get prompts
-      const prompts = await PromptModel.find({ userId, type: 'image' })
+      const prompts = await PromptModel.find({ userId, type: 'image', chatId }).lean()
 
       // response prompts
       res.status(200).json({ prompts })

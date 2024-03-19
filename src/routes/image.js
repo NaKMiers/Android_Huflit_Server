@@ -2,7 +2,7 @@ import express from 'express'
 const router = express.Router()
 import ImageController from '../app/controllers/ImageController.js'
 
-router.get('/get-prompts', ImageController.getPrompts)
+router.get('/get-prompts/:chatId', ImageController.getPrompts)
 
 router.post('/create-prompt', ImageController.createPrompt)
 
