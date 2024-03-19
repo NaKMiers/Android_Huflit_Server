@@ -103,6 +103,24 @@ class BoxController {
       res.status(500).json({ message: err.message })
     }
   }
+
+  // [DELETE]: /box/clear-boxes/:type
+  async clearBoxes(req, res) {
+    console.log('clearBoxes')
+
+    // get box type to delete
+    const { type } = req.params
+    const userId = req.user._id
+
+    try {
+      // delete all boxes
+      await BoxModel.deleteMany({ userId, type })
+
+      res.status(200).json({ message: 'Deleted all boxes successfully!!!' })
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+  }
 }
 
 export default new BoxController()

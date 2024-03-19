@@ -10,4 +10,6 @@ router.patch('/edit-box/:id', BoxController.editBox)
 
 router.delete('/delete-box/:id', BoxController.deleteBox)
 
+router.delete('/clear-boxes/:type', BoxController.clearBoxes)
+
 export default router
