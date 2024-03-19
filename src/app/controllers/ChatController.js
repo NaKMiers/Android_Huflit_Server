@@ -3,15 +3,16 @@ import BoxModel from '../models/BoxModel.js'
 import PromptModel from '../models/PromptModel.js'
 
 class ChatController {
-  // [GET]: /chat/get-prompts
+  // [GET]: /chat/get-prompts/:chatId
   async getPrompts(req, res) {
     console.log('getPrompts')
 
     const userId = req.user._id
+    const { chatId } = req.params
 
     try {
       // get prompts
-      const prompts = await PromptModel.find({ userId, type: 'chat' })
+      const prompts = await PromptModel.find({ userId, type: 'chat', chatId })
 
       // response prompts
       res.status(200).json({ prompts })
