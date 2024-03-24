@@ -48,6 +48,7 @@ class AuthController {
         return res.status(404).json('Invalid password')
       }
 
+      // create token for user
       const tokenData = {
         _id: user._id,
         username: user.username,
@@ -56,7 +57,6 @@ class AuthController {
         theme: user.theme,
       }
       const token = jwt.sign(tokenData, process.env.JWT_SECRET)
-
       const { password: pw, ...otherInfos } = user
 
       // response user data

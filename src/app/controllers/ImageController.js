@@ -127,6 +127,7 @@ class ImageController {
         type: 'image',
         from: 'ai',
         images: images.data.map(image => image.url),
+        text: prompt,
       })
 
       // save image prompt
